@@ -4,6 +4,7 @@ import { Jwt } from "hono/utils/jwt";
 import type { Context } from "hono";
 import { loginSchema, registerSchema } from "../validators/userSchema.js";
 import { sanitizedObject } from "../utils/sanitizeHtml.js";
+import logger from "../utils/logger.js";
 
 export async function register(c:Context){
     try{
@@ -66,6 +67,8 @@ export async function login(c: Context){
             }, 400)
         }
 
+    
+
         const sanitizedBody = sanitizedObject(result.data)
         const { username, password } = sanitizedBody
 
@@ -87,6 +90,7 @@ export async function login(c: Context){
 
         const accessToken = Jwt.sign({id:user._id, username:user.username, exp: 24 * 60 * 60}, process.env.JWT_SECRET!, 'HS256')
 
+        await logger("auth.log","loginController",true, username, c?.req?.header("x-forwarder-for") as string, "")
         return c.json({
             ok:true,
             message:"User login successfull",
