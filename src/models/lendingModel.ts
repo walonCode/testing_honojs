@@ -7,6 +7,7 @@ interface Lending extends Document{
     timeBorrowed:Date,
     timeReturned: Date
     username:string,
+    isReturned:boolean
 }
 
 const lendingSchema = new Schema<Lending>({
@@ -34,6 +35,10 @@ const lendingSchema = new Schema<Lending>({
         type:Date,
         required:true,
     },
+    isReturned:{
+        type:Boolean,
+        default: false
+    }
 
 }, { timestamps:true })
 
