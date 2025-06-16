@@ -4,7 +4,7 @@ interface Book extends Document{
     name:string,
     pages:number,
     condition:string,
-    library: string | undefined,
+    libraryId: string | undefined,
     isAvailable: boolean
 }
 
@@ -22,7 +22,7 @@ const bookSchema = new Schema<Book>({
         enum: ["new", "old", "refurbish"],
         unique:true
     },
-    library: {
+    libraryId: {
         type:Schema.Types.ObjectId,
         required: true
     },
